@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "725505062600",
+    "project_id": "handdetection-3dac6",
+    "storage_bucket": "handdetection-3dac6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725505062600:android:df24f77225d3283b7b17fd",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_gGydDWJbbohuI83fY9Q36Jea3aYQtu0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

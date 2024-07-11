@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="grid_layout_spacing">20dp</dimen>// Adjust the spacing as needed
+    <dimen name="grid_layout_margin_right">5dp</dimen>
+
+</resources>
