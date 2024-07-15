@@ -7,6 +7,7 @@ import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,6 +35,9 @@ import java.util.List;
 
 public class NextActivity extends AppCompatActivity {
 
+    //my new temp vars
+    StorageReference storage;
+
     private ImageView capturedImageView;
     private ImageView overlayImageView;
     private ImageView rotateIcon;
@@ -52,6 +56,8 @@ public class NextActivity extends AppCompatActivity {
     private PointF mid = new PointF();
     private float startAngle = 0f;
 
+
+
     private RecyclerView recyclerView;
     private ImageTextAdapter adapter;
     private List<ImageTextModel> dataList;
@@ -64,6 +70,25 @@ public class NextActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next);
+
+        //my temp work
+        List<String> imagesurl = new ArrayList<>();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference().child("tatto");
+        storageReference.listAll().addOnSuccessListener(listResult -> {
+            for(StorageReference item : listResult.getItems()){
+                item.getDownloadUrl().addOnSuccessListener(uri->{
+                    Log.d("itrr?" , "GOING");
+                    imagesurl.add(uri.toString());
+                    Log.d("imageurl" , uri.toString());
+                }).addOnFailureListener(e->{
+                    Log.e("downlading Error" , "Error while downloading url" , e);
+                });
+            }
+
+        }).addOnFailureListener(e->{
+                Log.d("Lisitng Error" , "Error while lisitng all" , e);
+        });
 
         capturedImageView = findViewById(R.id.capturedImageView);
         overlayImageView = findViewById(R.id.overlayImageView);
