@@ -92,8 +92,8 @@ public class NextActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         dataList = new ArrayList<>();
 
-        dataList.add(new ImageTextModel(R.drawable.tatto, "Tattos"));
-        dataList.add(new ImageTextModel(R.drawable.alphabet, "Alphabets"));
+        dataList.add(new ImageTextModel(R.drawable.tatto, "Tatto"));
+        dataList.add(new ImageTextModel(R.drawable.alphabet, "Alphabet"));
 //        dataList.add(new ImageTextModel(R.drawable.latest_icon, "Latest Designs"));
 //        dataList.add(new ImageTextModel(R.drawable.gol_icon, "Goltiki Designs"));
 //        dataList.add(new ImageTextModel(R.drawable.arabic_icon, "Arabic Designs"));
@@ -124,14 +124,16 @@ public class NextActivity extends AppCompatActivity {
                 recyclerView2.setVisibility(View.VISIBLE);
                 backArrow.setVisibility(View.VISIBLE);
 
-                if (dataList.get(position).getText().equals("Tattos")) {
+                setitems(dataList.get(position).getText().toLowerCase());
 
-                    Toast.makeText(NextActivity.this, "in the tattos", Toast.LENGTH_SHORT).show();
-                    get_tattos();
-                } else if (dataList.get(position).getText().equals("Alphabets")) {
-                    Toast.makeText(NextActivity.this, "in the alphas", Toast.LENGTH_SHORT).show();
-                }
-
+//                if (dataList.get(position).getText().equals("Tatto")) {
+//
+//                    Toast.makeText(NextActivity.this, "in the tattos", Toast.LENGTH_SHORT).show();
+//                    get_tattos();
+//                } else if (dataList.get(position).getText().equals("Alphabet")) {
+//                    Toast.makeText(NextActivity.this, "in the alphas", Toast.LENGTH_SHORT).show();
+//                }
+//
 
                 //my work ends
 
@@ -282,10 +284,34 @@ public class NextActivity extends AppCompatActivity {
                     Log.e("Error while Downloading", "Cannot download", e);
                 });
             }
-            adapter2.notifyDataSetChanged();
+//            adapter2.notifyDataSetChanged();
         }).addOnFailureListener(e -> {
             Log.e("Refrence Error", " Cannot Access Firebase", e);
         });
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void setitems(String folder){
+        dataList2.clear();
+        storageReference = storage.getReference().child(folder);
+        storageReference.listAll().addOnSuccessListener(listResult -> {
+            for(StorageReference item : listResult.getItems()){
+                Log.d("goingonn" , "onononononn");
+                item.getBytes(Long.MAX_VALUE).addOnSuccessListener(bytes->{
+                    Log.d("goingonn" , "trues");
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes , 0 , bytes.length);
+                    dataList2.add(new MehndiImage(this , bitmap ,item.getName() , folder));
+                    Log.d("image added", "asda");
+                }).addOnFailureListener(e->{
+                    Log.e("Error while Downloading", "Cannot download", e);
+                });
+            }
+            adapter2 = new MehndiImageAdapter(this, dataList2);
+            adapter2.notifyDataSetChanged();
+        }).addOnFailureListener(e->{
+            Log.e("Refrence Error", " Cannot Access Firebase", e);
+        });
+
     }
 
     private String getFolderNameFromText(String text) {

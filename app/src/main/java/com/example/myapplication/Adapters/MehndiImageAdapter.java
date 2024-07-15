@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplication.R;
 
 import java.util.List;
@@ -42,15 +45,25 @@ public class MehndiImageAdapter extends RecyclerView.Adapter<MehndiImageAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        int pos = position;
         MehndiImage item = dataList.get(position);
-        holder.imageView.setImageBitmap(item.getBitmap());
-        Log.d("imaged set ?? " , "obv");
+        Glide.with(context)
+                .load(item.getBitmap())
+                .apply(new RequestOptions()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE) // Optional: Disable disk caching
+                        .skipMemoryCache(true)
+                )
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.error)
+                .into(holder.imageView);
+//        holder.imageView.setImageBitmap(item.getBitmap());
+        Log.d("imaged set ?? ", "obv");
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mListener != null) {
-                    mListener.onItemClick(position);
+                    mListener.onItemClick(pos);
                 }
             }
         });

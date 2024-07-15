@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,11 +17,6 @@ import com.example.myapplication.Fragments.Home;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,27 +56,6 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
 
         //my temp work
-        List<String> imagesurl = new ArrayList<>();
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReference().child("tatto");
-        Log.d("here?" , "under tatto");
-        storageReference.listAll().addOnSuccessListener(listResult -> {
-            Log.d("itrr?" , "GOING");
-            Log.d("lenghth" , String.valueOf(listResult.getItems().size()));
-
-            for(StorageReference item : listResult.getItems()){
-                item.getDownloadUrl().addOnSuccessListener(uri->{
-                    Log.d("itrr?" , "GOING");
-                    imagesurl.add(uri.toString());
-                    Log.d("imageurl" , uri.toString());
-                }).addOnFailureListener(e->{
-                    Log.e("downlading Error" , "Error while downloading url" , e);
-                });
-            }
-
-        }).addOnFailureListener(e->{
-            Log.d("Lisitng Error" , "Error while lisitng all" , e);
-        });
 
         BottomNavigationView navView = findViewById(R.id.bottom_nav_view);
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
