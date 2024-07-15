@@ -1,6 +1,7 @@
 package com.example.myapplication.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class MehndiImageAdapter extends RecyclerView.Adapter<MehndiImageAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         MehndiImage item = dataList.get(position);
         holder.imageView.setImageBitmap(item.getBitmap());
+        Log.d("imaged set ?? " , "obv");
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override

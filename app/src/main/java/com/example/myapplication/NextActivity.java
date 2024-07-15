@@ -36,7 +36,9 @@ import java.util.List;
 public class NextActivity extends AppCompatActivity {
 
     //my new temp vars
-    StorageReference storage;
+    FirebaseStorage storage;
+    StorageReference storageReference;
+    List<String> imagesurl = new ArrayList<>();
 
     private ImageView capturedImageView;
     private ImageView overlayImageView;
@@ -57,7 +59,6 @@ public class NextActivity extends AppCompatActivity {
     private float startAngle = 0f;
 
 
-
     private RecyclerView recyclerView;
     private ImageTextAdapter adapter;
     private List<ImageTextModel> dataList;
@@ -72,23 +73,9 @@ public class NextActivity extends AppCompatActivity {
         setContentView(R.layout.activity_next);
 
         //my temp work
-        List<String> imagesurl = new ArrayList<>();
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReference().child("tatto");
-        storageReference.listAll().addOnSuccessListener(listResult -> {
-            for(StorageReference item : listResult.getItems()){
-                item.getDownloadUrl().addOnSuccessListener(uri->{
-                    Log.d("itrr?" , "GOING");
-                    imagesurl.add(uri.toString());
-                    Log.d("imageurl" , uri.toString());
-                }).addOnFailureListener(e->{
-                    Log.e("downlading Error" , "Error while downloading url" , e);
-                });
-            }
 
-        }).addOnFailureListener(e->{
-                Log.d("Lisitng Error" , "Error while lisitng all" , e);
-        });
+        storage = FirebaseStorage.getInstance();
+
 
         capturedImageView = findViewById(R.id.capturedImageView);
         overlayImageView = findViewById(R.id.overlayImageView);
@@ -104,19 +91,22 @@ public class NextActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         dataList = new ArrayList<>();
-        dataList.add(new ImageTextModel(R.drawable.latest_icon, "Latest Designs"));
-        dataList.add(new ImageTextModel(R.drawable.gol_icon, "Goltiki Designs"));
-        dataList.add(new ImageTextModel(R.drawable.arabic_icon, "Arabic Designs"));
-        dataList.add(new ImageTextModel(R.drawable.pakistan_icon, "Pakistani Designs"));
-        dataList.add(new ImageTextModel(R.drawable.bangal_icon, "Bengali Designs"));
-        dataList.add(new ImageTextModel(R.drawable.indian_icon, "Indian Designs"));
-        dataList.add(new ImageTextModel(R.drawable.bridal_icon, "Bridal Designs"));
-        dataList.add(new ImageTextModel(R.drawable.back_hand_icon, "Backhand Designs"));
-        dataList.add(new ImageTextModel(R.drawable.kids_icon, "Kids Designs"));
-        dataList.add(new ImageTextModel(R.drawable.finger_icon, "Finger Designs"));
-        dataList.add(new ImageTextModel(R.drawable.leg_icon, "Leg Designs"));
-        dataList.add(new ImageTextModel(R.drawable.foot_icon, "Foot Designs"));
-        dataList.add(new ImageTextModel(R.drawable.alpha_icon, "Alphabetic Designs"));
+
+        dataList.add(new ImageTextModel(R.drawable.tatto, "Tattos"));
+        dataList.add(new ImageTextModel(R.drawable.alphabet, "Alphabets"));
+//        dataList.add(new ImageTextModel(R.drawable.latest_icon, "Latest Designs"));
+//        dataList.add(new ImageTextModel(R.drawable.gol_icon, "Goltiki Designs"));
+//        dataList.add(new ImageTextModel(R.drawable.arabic_icon, "Arabic Designs"));
+//        dataList.add(new ImageTextModel(R.drawable.pakistan_icon, "Pakistani Designs"));
+//        dataList.add(new ImageTextModel(R.drawable.bangal_icon, "Bengali Designs"));
+//        dataList.add(new ImageTextModel(R.drawable.indian_icon, "Indian Designs"));
+//        dataList.add(new ImageTextModel(R.drawable.bridal_icon, "Bridal Designs"));
+//        dataList.add(new ImageTextModel(R.drawable.back_hand_icon, "Backhand Designs"));
+//        dataList.add(new ImageTextModel(R.drawable.kids_icon, "Kids Designs"));
+//        dataList.add(new ImageTextModel(R.drawable.finger_icon, "Finger Designs"));
+//        dataList.add(new ImageTextModel(R.drawable.leg_icon, "Leg Designs"));
+//        dataList.add(new ImageTextModel(R.drawable.foot_icon, "Foot Designs"));
+//        dataList.add(new ImageTextModel(R.drawable.alpha_icon, "Alphabetic Designs"));
 
         adapter = new ImageTextAdapter(this, dataList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -126,24 +116,43 @@ public class NextActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new ImageTextAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                String folderName = dataList.get(position).getText();
-                String folderNameInAssets = getFolderNameFromText(folderName);
+
+                //my work
+
+
                 recyclerView.setVisibility(View.GONE);
                 recyclerView2.setVisibility(View.VISIBLE);
                 backArrow.setVisibility(View.VISIBLE);
-                try {
-                    String[] images = getAssets().list(folderNameInAssets);
-                    dataList2.clear();
-                    for (String imageName : images) {
-                        InputStream inputStream = getAssets().open(folderNameInAssets + "/" + imageName);
-                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                        dataList2.add(new MehndiImage(NextActivity.this, bitmap, imageName, folderName));
-                    }
-                    adapter2.notifyDataSetChanged();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(NextActivity.this, "Error loading designs", Toast.LENGTH_SHORT).show();
+
+                if (dataList.get(position).getText().equals("Tattos")) {
+
+                    Toast.makeText(NextActivity.this, "in the tattos", Toast.LENGTH_SHORT).show();
+                    get_tattos();
+                } else if (dataList.get(position).getText().equals("Alphabets")) {
+                    Toast.makeText(NextActivity.this, "in the alphas", Toast.LENGTH_SHORT).show();
                 }
+
+
+                //my work ends
+
+
+                //old
+
+//                String folderName = dataList.get(position).getText();
+//                String folderNameInAssets = getFolderNameFromText(folderName);
+//                try {
+//                    String[] images = getAssets().list(folderNameInAssets);
+//                    dataList2.clear();
+//                    for (String imageName : images) {
+//                        InputStream inputStream = getAssets().open(folderNameInAssets + "/" + imageName);
+//                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+//                        dataList2.add(new MehndiImage(NextActivity.this, bitmap, imageName, folderName));
+//                    }
+//                    adapter2.notifyDataSetChanged();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    Toast.makeText(NextActivity.this, "Error loading designs", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 
@@ -260,6 +269,25 @@ public class NextActivity extends AppCompatActivity {
         }
     }
 
+    private void get_tattos() {
+        dataList2.clear();
+        storageReference = storage.getReference().child("tatto");
+        storageReference.listAll().addOnSuccessListener(listResult -> {
+            for (StorageReference item : listResult.getItems()) {
+                item.getBytes(Long.MAX_VALUE).addOnSuccessListener(bytes -> {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    dataList2.add(new MehndiImage(NextActivity.this, bitmap, "1", "temp"));
+                    Log.d("image added", "asda");
+                }).addOnFailureListener(e -> {
+                    Log.e("Error while Downloading", "Cannot download", e);
+                });
+            }
+            adapter2.notifyDataSetChanged();
+        }).addOnFailureListener(e -> {
+            Log.e("Refrence Error", " Cannot Access Firebase", e);
+        });
+    }
+
     private String getFolderNameFromText(String text) {
         switch (text) {
             case "Latest Designs":
@@ -288,6 +316,7 @@ public class NextActivity extends AppCompatActivity {
                 return "finger design";
             case "Foot Designs":
                 return "foot design";
+
             default:
                 return "";
         }

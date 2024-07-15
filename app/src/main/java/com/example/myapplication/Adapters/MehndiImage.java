@@ -13,13 +13,11 @@ public class MehndiImage {
         this.bitmap = bitmap;
         this.imageName = imageName;
         this.folderName = folderName;
-
     }
 
     public Bitmap getBitmap() {
         return bitmap;
     }
-
     public String getImageName() {
         return imageName;
     }
