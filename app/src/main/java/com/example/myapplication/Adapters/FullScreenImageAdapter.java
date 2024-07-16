@@ -43,7 +43,7 @@ public class FullScreenImageAdapter extends PagerAdapter {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_fullscreen_image, container, false);
 
-        ImageView imageView = view.findViewById(R.id.imageView);
+        ImageView imageView = view.findViewById(R.id.image_full);
         currentImageView = imageView; // Set currentImageView to the newly created ImageView
 
         // Load image from assets

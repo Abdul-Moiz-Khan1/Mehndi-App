@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,22 +18,20 @@ import java.util.List;
 
 public class MehndiImageAdapter extends RecyclerView.Adapter<MehndiImageAdapter.ViewHolder> {
 
+
     private List<MehndiImage> dataList;
     private Context context;
-    private OnItemClickListener mListener;
-
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        mListener = listener;
-    }
+    private OnItemClickListener Listener;
 
     public MehndiImageAdapter(Context context, List<MehndiImage> dataList) {
         this.context = context;
         this.dataList = dataList;
     }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.Listener = listener;
+    }
+
 
     @NonNull
     @Override
@@ -53,12 +52,15 @@ public class MehndiImageAdapter extends RecyclerView.Adapter<MehndiImageAdapter.
                 .into(holder.imageView);
 //        holder.imageView.setImageBitmap(item.getBitmap());
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
 
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mListener != null) {
-                    mListener.onItemClick(pos);
+                if (Listener != null) {
+                    Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
+                    Listener.onItemClick(position);
+                } else {
+                    Toast.makeText(context, "listener null", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -74,7 +76,13 @@ public class MehndiImageAdapter extends RecyclerView.Adapter<MehndiImageAdapter.
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
+            imageView = itemView.findViewById(R.id.image_mehndi);
         }
     }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+
 }

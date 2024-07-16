@@ -66,7 +66,7 @@ public class ImageTextAdapter extends RecyclerView.Adapter<ImageTextAdapter.View
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
+            imageView = itemView.findViewById(R.id.image_full);
             textView = itemView.findViewById(R.id.textView);
         }
     }
@@ -75,5 +75,7 @@ public class ImageTextAdapter extends RecyclerView.Adapter<ImageTextAdapter.View
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
+
+
 }
 

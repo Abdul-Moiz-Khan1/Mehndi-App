@@ -35,7 +35,9 @@ public class NextActivity extends AppCompatActivity {
     //my new temp vars
     FirebaseStorage storage;
     StorageReference storageReference;
-    List<String> imagesurl = new ArrayList<>();
+    private List<Uri> images_uri = new ArrayList<>();
+    int pos;
+
 
     private ImageView capturedImageView;
     private ImageView overlayImageView;
@@ -90,20 +92,6 @@ public class NextActivity extends AppCompatActivity {
 
         dataList.add(new ImageTextModel(R.drawable.tatto, "Tatto"));
         dataList.add(new ImageTextModel(R.drawable.alphabet, "Alphabets"));
-//        dataList.add(new ImageTextModel(R.drawable.latest_icon, "Latest Designs"));
-//        dataList.add(new ImageTextModel(R.drawable.gol_icon, "Goltiki Designs"));
-//        dataList.add(new ImageTextModel(R.drawable.arabic_icon, "Arabic Designs"));
-//        dataList.add(new ImageTextModel(R.drawable.pakistan_icon, "Pakistani Designs"));
-//        dataList.add(new ImageTextModel(R.drawable.bangal_icon, "Bengali Designs"));
-//        dataList.add(new ImageTextModel(R.drawable.indian_icon, "Indian Designs"));
-//        dataList.add(new ImageTextModel(R.drawable.bridal_icon, "Bridal Designs"));
-//        dataList.add(new ImageTextModel(R.drawable.back_hand_icon, "Backhand Designs"));
-//        dataList.add(new ImageTextModel(R.drawable.kids_icon, "Kids Designs"));
-//        dataList.add(new ImageTextModel(R.drawable.finger_icon, "Finger Designs"));
-//        dataList.add(new ImageTextModel(R.drawable.leg_icon, "Leg Designs"));
-//        dataList.add(new ImageTextModel(R.drawable.foot_icon, "Foot Designs"));
-//        dataList.add(new ImageTextModel(R.drawable.alpha_icon, "Alphabetic Designs"));
-
         adapter = new ImageTextAdapter(this, dataList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
@@ -114,43 +102,25 @@ public class NextActivity extends AppCompatActivity {
             public void onItemClick(int position) {
 
                 //my work
-
                 recyclerView.setVisibility(View.GONE);
                 recyclerView2.setAdapter(adapter2);
                 recyclerView2.setVisibility(View.VISIBLE);
                 setitems(dataList.get(position).getText().toLowerCase());
 
                 backArrow.setVisibility(View.VISIBLE);
+            }
+        });
 
-
-//                if (dataList.get(position).getText().equals("Tatto")) {
-//
-//                    Toast.makeText(NextActivity.this, "in the tattos", Toast.LENGTH_SHORT).show();
-//                    get_tattos();
-//                } else if (dataList.get(position).getText().equals("Alphabet")) {
-//                    Toast.makeText(NextActivity.this, "in the alphas", Toast.LENGTH_SHORT).show();
-//                }
-//
-
-                //my work ends
-
-
-                //old
-
-//                String folderName = dataList.get(position).getText();
-//                String folderNameInAssets = getFolderNameFromText(folderName);
+        adapter2.setOnItemClickListener(new MehndiImageAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+//                pos = position;
 //                try {
-//                    String[] images = getAssets().list(folderNameInAssets);
-//                    dataList2.clear();
-//                    for (String imageName : images) {
-//                        InputStream inputStream = getAssets().open(folderNameInAssets + "/" + imageName);
-//                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//                        dataList2.add(new MehndiImage(NextActivity.this, bitmap, imageName, folderName));
-//                    }
-//                    adapter2.notifyDataSetChanged();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    Toast.makeText(NextActivity.this, "Error loading designs", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(NextActivity.this , "image touchd" , Toast.LENGTH_SHORT).show();
+//                    Uri uri = images_uri.get(pos);
+//                    overlayImageView.setImageURI(uri);
+//                }catch (Exception e){
+//                    Log.e("Error", "Error while loading images" , e);
 //                }
             }
         });
@@ -164,32 +134,6 @@ public class NextActivity extends AppCompatActivity {
                 backArrow.setVisibility(View.GONE);
             }
         });
-
-        // Handle item click in second RecyclerView to load image
-//        adapter2.setOnItemClickListener(new MehndiImageAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(int position) {
-//                String imageName = dataList2.get(position).getImageName();
-//                String folderName = dataList2.get(position).getFolderName();
-//                if (imageName != null) {
-//                    StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName + "/" + imageName);
-//                    storageRef.getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-//                        @Override
-//                        public void onSuccess(byte[] bytes) {
-//                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-//                            overlayImageView.setImageBitmap(bitmap);
-//                        }
-//                    }).addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception exception) {
-//                            Toast.makeText(NextActivity.this, "Failed to load image from Firebase Storage" + folderName, Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                } else {
-//                    Toast.makeText(NextActivity.this, "Image name is null", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
 
         rotateIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,10 +150,17 @@ public class NextActivity extends AppCompatActivity {
             Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
         }
 
+//        set_overlay_image();
+    }
+
+    private void set_overlay_image() {
         try {
-            InputStream inputStream = getAssets().open("Alphabetic design/1.webp");
+
+//            InputStream inputStream = getAssets().open("Alphabetic design/1.webp");
+            InputStream inputStream = getContentResolver().openInputStream(images_uri.get(pos));
             overlayImage = BitmapFactory.decodeStream(inputStream);
             overlayImageView.setImageBitmap(overlayImage);
+
             overlayImageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -268,33 +219,17 @@ public class NextActivity extends AppCompatActivity {
         }
     }
 
-    private void get_tattos() {
-        dataList2.clear();
-        storageReference = storage.getReference().child("tatto");
-        storageReference.listAll().addOnSuccessListener(listResult -> {
-            for (StorageReference item : listResult.getItems()) {
-                item.getBytes(Long.MAX_VALUE).addOnSuccessListener(bytes -> {
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-//                    dataList2.add(new MehndiImage(NextActivity.this, bitmap, "1", "temp"));
-                    Log.d("image added", "asda");
-                }).addOnFailureListener(e -> {
-                    Log.e("Error while Downloading", "Cannot download", e);
-                });
-            }
-//            adapter2.notifyDataSetChanged();
-        }).addOnFailureListener(e -> {
-            Log.e("Refrence Error", " Cannot Access Firebase", e);
-        });
-    }
 
     private void setitems(String folder) {
         dataList2.clear();
+        images_uri.clear();
         try {
             storageReference = storage.getReference().child(folder);
             storageReference.listAll().addOnSuccessListener(listResult -> {
                 for (StorageReference item : listResult.getItems()) {
                     item.getDownloadUrl().addOnSuccessListener(uri -> {
                         dataList2.add(new MehndiImage(this, uri.toString(), item.getName(), folder));
+                        images_uri.add(uri);
                         Log.d("image added", uri.toString());
                         Log.d("image added", String.valueOf(dataList2.size()));
                         if (dataList2.size() >= listResult.getItems().size()) {
@@ -379,4 +314,5 @@ public class NextActivity extends AppCompatActivity {
             overlayImageView.setImageMatrix(matrix);
         }
     }
+
 }
