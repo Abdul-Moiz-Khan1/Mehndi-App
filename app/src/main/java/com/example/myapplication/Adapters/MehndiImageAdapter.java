@@ -2,7 +2,6 @@ package com.example.myapplication.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ public class MehndiImageAdapter extends RecyclerView.Adapter<MehndiImageAdapter.
     }
 
     public void setOnItemClickListener2(OnItemClickListener2 listener) {
-        Log.d("setting listner" , "listed");
         this.Listener = listener;
     }
 

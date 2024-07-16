@@ -98,7 +98,6 @@ public class NextActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
 
-
         // Handle item click to switch to second RecyclerView
         adapter.setOnItemClickListener(new ImageTextAdapter.OnItemClickListener() {
             @SuppressLint("NotifyDataSetChanged")
@@ -110,37 +109,16 @@ public class NextActivity extends AppCompatActivity {
                 recyclerView2.setAdapter(adapter2);
                 recyclerView2.setVisibility(View.VISIBLE);
                 backArrow.setVisibility(View.VISIBLE);
-//                setitems(dataList.get(position).getText().toLowerCase());
-                dataList2.clear();
-                images_uri.clear();
-                try {
-                    storageReference = storage.getReference().child(dataList.get(position).getText().toLowerCase());
-                    storageReference.listAll().addOnSuccessListener(listResult -> {
-                        for (StorageReference item : listResult.getItems()) {
-                            item.getDownloadUrl().addOnSuccessListener(uri -> {
-                                dataList2.add(new MehndiImage(NextActivity.this, uri.toString(), item.getName(), dataList.get(position).getText().toLowerCase()));
-                                images_uri.add(uri);
-                                Log.d("image added", uri.toString());
-                                Log.d("image added", String.valueOf(dataList2.size()));
-                                adapter2.notifyDataSetChanged();
-                            }).addOnFailureListener(e -> {
-                                Log.e("Error while Downloading", "Cannot download", e);
-                            });
-                        }
-                    });
 
-                } catch (Exception e) {
-                    Log.e("Refrence Error", " Cannot Access Firebase", e);
-                }
-
+                setitems(dataList.get(position).getText().toLowerCase());
             }
         });
 
         adapter2.setOnItemClickListener2(new MehndiImageAdapter.OnItemClickListener2() {
             @Override
             public void onItemClick2(int position) {
-                Log.d("in view cccc", "more to com");
-          Toast.makeText(NextActivity.this, "into click viw", Toast.LENGTH_SHORT).show();
+                pos = position;
+                set_overlay_image();
 
             }
         });
@@ -169,13 +147,10 @@ public class NextActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
         }
-
-//        set_overlay_image();
     }
 
     private void set_overlay_image() {
         try {
-
 //            InputStream inputStream = getAssets().open("Alphabetic design/1.webp");
             InputStream inputStream = getContentResolver().openInputStream(images_uri.get(pos));
             overlayImage = BitmapFactory.decodeStream(inputStream);
@@ -240,6 +215,7 @@ public class NextActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private void setitems(String folder) {
         dataList2.clear();
         images_uri.clear();
@@ -264,6 +240,7 @@ public class NextActivity extends AppCompatActivity {
         }
 
     }
+
     private String getFolderNameFromText(String text) {
         switch (text) {
             case "Latest Designs":
