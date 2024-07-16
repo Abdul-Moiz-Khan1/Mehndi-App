@@ -89,7 +89,7 @@ public class NextActivity extends AppCompatActivity {
         dataList = new ArrayList<>();
 
         dataList.add(new ImageTextModel(R.drawable.tatto, "Tatto"));
-        dataList.add(new ImageTextModel(R.drawable.alphabet, "Alphabet"));
+        dataList.add(new ImageTextModel(R.drawable.alphabet, "Alphabets"));
 //        dataList.add(new ImageTextModel(R.drawable.latest_icon, "Latest Designs"));
 //        dataList.add(new ImageTextModel(R.drawable.gol_icon, "Goltiki Designs"));
 //        dataList.add(new ImageTextModel(R.drawable.arabic_icon, "Arabic Designs"));
