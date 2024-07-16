@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,8 +21,6 @@ import com.example.myapplication.Adapters.ImageTextAdapter;
 import com.example.myapplication.Adapters.ImageTextModel;
 import com.example.myapplication.Adapters.MehndiImage;
 import com.example.myapplication.Adapters.MehndiImageAdapter;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -76,7 +73,6 @@ public class NextActivity extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
 
-
         capturedImageView = findViewById(R.id.capturedImageView);
         overlayImageView = findViewById(R.id.overlayImageView);
         rotateIcon = findViewById(R.id.rotateIcon);
@@ -84,10 +80,10 @@ public class NextActivity extends AppCompatActivity {
 
         recyclerView2 = findViewById(R.id.recyclerView2);
         dataList2 = new ArrayList<>();
-        adapter2 = new MehndiImageAdapter(this, dataList2);
-        recyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView2.setAdapter(adapter2);
+
         recyclerView2.setVisibility(View.GONE);
+        adapter2 = new MehndiImageAdapter(this, dataList2);
+        recyclerView2.setAdapter(adapter2);
 
         recyclerView = findViewById(R.id.recyclerView);
         dataList = new ArrayList<>();
@@ -119,12 +115,13 @@ public class NextActivity extends AppCompatActivity {
 
                 //my work
 
-
                 recyclerView.setVisibility(View.GONE);
+                recyclerView2.setAdapter(adapter2);
                 recyclerView2.setVisibility(View.VISIBLE);
+                setitems(dataList.get(position).getText().toLowerCase());
+
                 backArrow.setVisibility(View.VISIBLE);
 
-                setitems(dataList.get(position).getText().toLowerCase());
 
 //                if (dataList.get(position).getText().equals("Tatto")) {
 //
@@ -169,30 +166,30 @@ public class NextActivity extends AppCompatActivity {
         });
 
         // Handle item click in second RecyclerView to load image
-        adapter2.setOnItemClickListener(new MehndiImageAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                String imageName = dataList2.get(position).getImageName();
-                String folderName = dataList2.get(position).getFolderName();
-                if (imageName != null) {
-                    StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName + "/" + imageName);
-                    storageRef.getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                        @Override
-                        public void onSuccess(byte[] bytes) {
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                            overlayImageView.setImageBitmap(bitmap);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            Toast.makeText(NextActivity.this, "Failed to load image from Firebase Storage" + folderName, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else {
-                    Toast.makeText(NextActivity.this, "Image name is null", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        adapter2.setOnItemClickListener(new MehndiImageAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(int position) {
+//                String imageName = dataList2.get(position).getImageName();
+//                String folderName = dataList2.get(position).getFolderName();
+//                if (imageName != null) {
+//                    StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName + "/" + imageName);
+//                    storageRef.getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+//                        @Override
+//                        public void onSuccess(byte[] bytes) {
+//                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//                            overlayImageView.setImageBitmap(bitmap);
+//                        }
+//                    }).addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception exception) {
+//                            Toast.makeText(NextActivity.this, "Failed to load image from Firebase Storage" + folderName, Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                } else {
+//                    Toast.makeText(NextActivity.this, "Image name is null", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
         rotateIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -278,7 +275,7 @@ public class NextActivity extends AppCompatActivity {
             for (StorageReference item : listResult.getItems()) {
                 item.getBytes(Long.MAX_VALUE).addOnSuccessListener(bytes -> {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    dataList2.add(new MehndiImage(NextActivity.this, bitmap, "1", "temp"));
+//                    dataList2.add(new MehndiImage(NextActivity.this, bitmap, "1", "temp"));
                     Log.d("image added", "asda");
                 }).addOnFailureListener(e -> {
                     Log.e("Error while Downloading", "Cannot download", e);
@@ -290,28 +287,38 @@ public class NextActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private void setitems(String folder){
+    private void setitems(String folder) {
         dataList2.clear();
-        storageReference = storage.getReference().child(folder);
-        storageReference.listAll().addOnSuccessListener(listResult -> {
-            for(StorageReference item : listResult.getItems()){
-                Log.d("goingonn" , "onononononn");
-                item.getBytes(Long.MAX_VALUE).addOnSuccessListener(bytes->{
-                    Log.d("goingonn" , "trues");
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes , 0 , bytes.length);
-                    dataList2.add(new MehndiImage(this , bitmap ,item.getName() , folder));
-                    Log.d("image added", "asda");
-                }).addOnFailureListener(e->{
-                    Log.e("Error while Downloading", "Cannot download", e);
-                });
-            }
-            adapter2 = new MehndiImageAdapter(this, dataList2);
-            adapter2.notifyDataSetChanged();
-        }).addOnFailureListener(e->{
-            Log.e("Refrence Error", " Cannot Access Firebase", e);
-        });
+        try {
+            storageReference = storage.getReference().child(folder);
+            storageReference.listAll().addOnSuccessListener(listResult -> {
+                for (StorageReference item : listResult.getItems()) {
+                    item.getDownloadUrl().addOnSuccessListener(uri -> {
+                        dataList2.add(new MehndiImage(this, uri.toString(), item.getName(), folder));
+                        Log.d("image added", uri.toString());
+                        Log.d("image added", String.valueOf(dataList2.size()));
+                        if (dataList2.size() >= listResult.getItems().size()) {
+                            setrecyclerview();
+                        }
+                    }).addOnFailureListener(e -> {
+                        Log.e("Error while Downloading", "Cannot download", e);
+                    });
+                }
+            });
 
+        } catch (Exception e) {
+            Log.e("Refrence Error", " Cannot Access Firebase", e);
+        }
+
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void setrecyclerview() {
+        Log.d("in adapter??", "yes");
+        adapter2 = new MehndiImageAdapter(this, dataList2);
+        recyclerView2.setAdapter(adapter2);
+        recyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        adapter2.notifyDataSetChanged();
     }
 
     private String getFolderNameFromText(String text) {
