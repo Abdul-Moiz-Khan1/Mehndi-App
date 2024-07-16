@@ -27,6 +27,10 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,7 +156,10 @@ public class NextActivity extends AppCompatActivity {
     private void set_overlay_image() {
         try {
 //            InputStream inputStream = getAssets().open("Alphabetic design/1.webp");
-            InputStream inputStream = getContentResolver().openInputStream(images_uri.get(pos));
+            URI uri = new URI(images_uri.get(pos).toString());
+            URL url = uri.toURL();
+
+            InputStream inputStream = getInputStreamFromUrl(String.valueOf(url));
             overlayImage = BitmapFactory.decodeStream(inputStream);
             overlayImageView.setImageBitmap(overlayImage);
 
@@ -208,8 +215,9 @@ public class NextActivity extends AppCompatActivity {
                     return true;
                 }
             });
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
+            Log.e("Error" , "Error loading overlay image" , e);
             Toast.makeText(this, "Error loading overlay image", Toast.LENGTH_SHORT).show();
         }
     }
@@ -298,6 +306,14 @@ public class NextActivity extends AppCompatActivity {
             matrix.postRotate(45, overlayImageView.getWidth() / 2, overlayImageView.getHeight() / 2);
             overlayImageView.setImageMatrix(matrix);
         }
+    }
+
+    private InputStream getInputStreamFromUrl(String urlString) throws IOException {
+        URL url = new URL(urlString);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setDoInput(true);
+        connection.connect();
+        return connection.getInputStream();
     }
 
 }
