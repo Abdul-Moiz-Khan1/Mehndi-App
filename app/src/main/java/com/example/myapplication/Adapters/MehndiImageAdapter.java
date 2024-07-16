@@ -1,5 +1,6 @@
 package com.example.myapplication.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,14 +22,15 @@ public class MehndiImageAdapter extends RecyclerView.Adapter<MehndiImageAdapter.
 
     private List<MehndiImage> dataList;
     private Context context;
-    private OnItemClickListener Listener;
+    private OnItemClickListener2 Listener;
 
-    public MehndiImageAdapter(Context context, List<MehndiImage> dataList) {
+    public MehndiImageAdapter(Context context , List<MehndiImage> dataList){
         this.context = context;
         this.dataList = dataList;
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener2(OnItemClickListener2 listener) {
+        Log.d("setting listner" , "listed");
         this.Listener = listener;
     }
 
@@ -41,9 +43,7 @@ public class MehndiImageAdapter extends RecyclerView.Adapter<MehndiImageAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        int pos = position;
-        Log.d("imaged set ?? ", "obv");
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         MehndiImage item = dataList.get(position);
         Glide.with(context)
                 .load(item.getUrl())
@@ -53,13 +53,11 @@ public class MehndiImageAdapter extends RecyclerView.Adapter<MehndiImageAdapter.
 //        holder.imageView.setImageBitmap(item.getBitmap());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 if (Listener != null) {
-                    Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
-                    Listener.onItemClick(position);
-                } else {
+                    Listener.onItemClick2(position);
+                }else {
                     Toast.makeText(context, "listener null", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -80,8 +78,8 @@ public class MehndiImageAdapter extends RecyclerView.Adapter<MehndiImageAdapter.
         }
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(int position);
+    public interface OnItemClickListener2 {
+        void onItemClick2(int position);
     }
 
 

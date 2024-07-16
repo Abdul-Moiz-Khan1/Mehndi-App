@@ -86,6 +86,7 @@ public class NextActivity extends AppCompatActivity {
         recyclerView2.setVisibility(View.GONE);
         adapter2 = new MehndiImageAdapter(this, dataList2);
         recyclerView2.setAdapter(adapter2);
+        recyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         recyclerView = findViewById(R.id.recyclerView);
         dataList = new ArrayList<>();
@@ -96,8 +97,11 @@ public class NextActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
 
+
+
         // Handle item click to switch to second RecyclerView
         adapter.setOnItemClickListener(new ImageTextAdapter.OnItemClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onItemClick(int position) {
 
@@ -105,23 +109,39 @@ public class NextActivity extends AppCompatActivity {
                 recyclerView.setVisibility(View.GONE);
                 recyclerView2.setAdapter(adapter2);
                 recyclerView2.setVisibility(View.VISIBLE);
-                setitems(dataList.get(position).getText().toLowerCase());
-
                 backArrow.setVisibility(View.VISIBLE);
+//                setitems(dataList.get(position).getText().toLowerCase());
+                dataList2.clear();
+                images_uri.clear();
+                try {
+                    storageReference = storage.getReference().child(dataList.get(position).getText().toLowerCase());
+                    storageReference.listAll().addOnSuccessListener(listResult -> {
+                        for (StorageReference item : listResult.getItems()) {
+                            item.getDownloadUrl().addOnSuccessListener(uri -> {
+                                dataList2.add(new MehndiImage(NextActivity.this, uri.toString(), item.getName(), dataList.get(position).getText().toLowerCase()));
+                                images_uri.add(uri);
+                                Log.d("image added", uri.toString());
+                                Log.d("image added", String.valueOf(dataList2.size()));
+                                adapter2.notifyDataSetChanged();
+                            }).addOnFailureListener(e -> {
+                                Log.e("Error while Downloading", "Cannot download", e);
+                            });
+                        }
+                    });
+
+                } catch (Exception e) {
+                    Log.e("Refrence Error", " Cannot Access Firebase", e);
+                }
+
             }
         });
 
-        adapter2.setOnItemClickListener(new MehndiImageAdapter.OnItemClickListener() {
+        adapter2.setOnItemClickListener2(new MehndiImageAdapter.OnItemClickListener2() {
             @Override
-            public void onItemClick(int position) {
-//                pos = position;
-//                try {
-//                    Toast.makeText(NextActivity.this , "image touchd" , Toast.LENGTH_SHORT).show();
-//                    Uri uri = images_uri.get(pos);
-//                    overlayImageView.setImageURI(uri);
-//                }catch (Exception e){
-//                    Log.e("Error", "Error while loading images" , e);
-//                }
+            public void onItemClick2(int position) {
+                Log.d("in view cccc", "more to com");
+          Toast.makeText(NextActivity.this, "into click viw", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -232,9 +252,7 @@ public class NextActivity extends AppCompatActivity {
                         images_uri.add(uri);
                         Log.d("image added", uri.toString());
                         Log.d("image added", String.valueOf(dataList2.size()));
-                        if (dataList2.size() >= listResult.getItems().size()) {
-                            setrecyclerview();
-                        }
+                        adapter2.notifyDataSetChanged();
                     }).addOnFailureListener(e -> {
                         Log.e("Error while Downloading", "Cannot download", e);
                     });
@@ -246,16 +264,6 @@ public class NextActivity extends AppCompatActivity {
         }
 
     }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private void setrecyclerview() {
-        Log.d("in adapter??", "yes");
-        adapter2 = new MehndiImageAdapter(this, dataList2);
-        recyclerView2.setAdapter(adapter2);
-        recyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        adapter2.notifyDataSetChanged();
-    }
-
     private String getFolderNameFromText(String text) {
         switch (text) {
             case "Latest Designs":
