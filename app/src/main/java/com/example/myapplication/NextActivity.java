@@ -21,15 +21,15 @@ import com.example.myapplication.Adapters.ImageTextAdapter;
 import com.example.myapplication.Adapters.ImageTextModel;
 import com.example.myapplication.Adapters.MehndiImage;
 import com.example.myapplication.Adapters.MehndiImageAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +41,7 @@ public class NextActivity extends AppCompatActivity {
     StorageReference storageReference;
     private List<Uri> images_uri = new ArrayList<>();
     int pos;
+    InputStream inputStream;
 
 
     private ImageView capturedImageView;
@@ -154,15 +155,19 @@ public class NextActivity extends AppCompatActivity {
     }
 
     private void set_overlay_image() {
-        try {
-//            InputStream inputStream = getAssets().open("Alphabetic design/1.webp");
-            URI uri = new URI(images_uri.get(pos).toString());
-            URL url = uri.toURL();
 
-            InputStream inputStream = getInputStreamFromUrl(String.valueOf(url));
+            String imagename = dataList2.get(pos).getImageName();
+            storageReference.child(imagename).getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                   inputStream = new ByteArrayInputStream(bytes);
+                }
+            }).addOnFailureListener(e->{
+                Log.e("Error" , "Error while loading from firebase",e);
+            });
             overlayImage = BitmapFactory.decodeStream(inputStream);
             overlayImageView.setImageBitmap(overlayImage);
-
+        try {
             overlayImageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -215,10 +220,9 @@ public class NextActivity extends AppCompatActivity {
                     return true;
                 }
             });
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-            Log.e("Error" , "Error loading overlay image" , e);
-            Toast.makeText(this, "Error loading overlay image", Toast.LENGTH_SHORT).show();
+        } catch (Exception e){
+            Toast.makeText(this,e.getMessage() , Toast.LENGTH_SHORT).show();
+            Log.e("Error" , "Error while overlaying Image" , e);
         }
     }
 
@@ -234,7 +238,7 @@ public class NextActivity extends AppCompatActivity {
                     item.getDownloadUrl().addOnSuccessListener(uri -> {
                         dataList2.add(new MehndiImage(this, uri.toString(), item.getName(), folder));
                         images_uri.add(uri);
-                        Log.d("image added", uri.toString());
+                        Log.d("image added", item.getName());
                         Log.d("image added", String.valueOf(dataList2.size()));
                         adapter2.notifyDataSetChanged();
                     }).addOnFailureListener(e -> {
