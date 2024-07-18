@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -27,10 +28,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +40,7 @@ public class NextActivity extends AppCompatActivity {
     private List<Uri> images_uri = new ArrayList<>();
     int pos;
     InputStream inputStream;
+    ProgressDialog progressDialog;
 
 
     private ImageView capturedImageView;
@@ -110,6 +109,8 @@ public class NextActivity extends AppCompatActivity {
             public void onItemClick(int position) {
 
                 //my work
+                progressDialog = new ProgressDialog(NextActivity.this);
+                showProgress();
                 recyclerView.setVisibility(View.GONE);
                 recyclerView2.setAdapter(adapter2);
                 recyclerView2.setVisibility(View.VISIBLE);
@@ -154,8 +155,10 @@ public class NextActivity extends AppCompatActivity {
         }
     }
 
-    private void set_overlay_image() {
 
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void set_overlay_image() {
             String imagename = dataList2.get(pos).getImageName();
             storageReference.child(imagename).getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
@@ -245,8 +248,8 @@ public class NextActivity extends AppCompatActivity {
                         Log.e("Error while Downloading", "Cannot download", e);
                     });
                 }
+                progressDialog.dismiss();
             });
-
         } catch (Exception e) {
             Log.e("Refrence Error", " Cannot Access Firebase", e);
         }
@@ -312,12 +315,10 @@ public class NextActivity extends AppCompatActivity {
         }
     }
 
-    private InputStream getInputStreamFromUrl(String urlString) throws IOException {
-        URL url = new URL(urlString);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setDoInput(true);
-        connection.connect();
-        return connection.getInputStream();
+    private void showProgress() {
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("loading Designs");
+        progressDialog.show();
     }
 
 }
