@@ -41,6 +41,7 @@ public class NextActivity extends AppCompatActivity {
     int pos;
     InputStream inputStream;
     ProgressDialog progressDialog;
+    Boolean fetched;
 
 
     private ImageView capturedImageView;
@@ -159,18 +160,22 @@ public class NextActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void set_overlay_image() {
+        fetched = false;
             String imagename = dataList2.get(pos).getImageName();
             storageReference.child(imagename).getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
                 public void onSuccess(byte[] bytes) {
                    inputStream = new ByteArrayInputStream(bytes);
+                    overlayImage = BitmapFactory.decodeStream(inputStream);
+                    overlayImageView.setImageBitmap(overlayImage);
+                   fetched = true;
                 }
             }).addOnFailureListener(e->{
                 Log.e("Error" , "Error while loading from firebase",e);
             });
-            overlayImage = BitmapFactory.decodeStream(inputStream);
-            overlayImageView.setImageBitmap(overlayImage);
+
         try {
+
             overlayImageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
