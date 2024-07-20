@@ -46,6 +46,8 @@
         app:layout_anchor="@id/bottom_app_bar"
         tools:ignore="MissingConstraints"
 
+        android:backgroundTint="@color/background"
+
         android:src="@drawable/scan_icon"/>
 
     <com.google.android.material.bottomappbar.BottomAppBar
