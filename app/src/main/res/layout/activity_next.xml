@@ -34,12 +34,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="154dp"
         android:layout_below="@id/capturedImageView"
-        android:padding="8dp"
         android:layout_marginBottom="2dp"
+        android:clipChildren="false"
         android:clipToPadding="false"
-        android:clipChildren="false"/>
+        android:padding="8dp" />
 
     <ImageView
         android:id="@+id/backArrow"
