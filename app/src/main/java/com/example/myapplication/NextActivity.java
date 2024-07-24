@@ -42,6 +42,11 @@ public class NextActivity extends AppCompatActivity {
     InputStream inputStream;
     ProgressDialog progressDialog;
     Boolean fetched;
+    private ImageView flip_vertical;
+    private ImageView flip_horizontal;
+    private Boolean flipped_vert = false;
+    private Boolean flipped_hor = false;
+
 
 
     private ImageView capturedImageView;
@@ -79,6 +84,11 @@ public class NextActivity extends AppCompatActivity {
         //my temp work
 
         storage = FirebaseStorage.getInstance();
+
+        flip_vertical = findViewById(R.id.vertical);
+        flip_horizontal = findViewById(R.id.horizontal);
+        flip_vertical.setOnClickListener(view -> {flip_vertically();});
+        flip_horizontal.setOnClickListener(view -> {flip_horizontally();});
 
         capturedImageView = findViewById(R.id.capturedImageView);
         overlayImageView = findViewById(R.id.overlayImageView);
@@ -156,6 +166,25 @@ public class NextActivity extends AppCompatActivity {
         }
     }
 
+    private void flip_horizontally() {
+        if(flipped_hor){
+            overlayImageView.setRotationY(-180);
+            flipped_hor = false;
+        }
+        else{
+            overlayImageView.setRotationY(180);
+            flipped_hor = true;
+        }
+    }
+    private void flip_vertically() {
+        if(flipped_vert){
+            overlayImageView.setRotationX(-180);
+            flipped_vert = false;
+        }else {
+            overlayImageView.setRotationX(180);
+            flipped_vert = true;
+        }
+    }
 
 
     @SuppressLint("ClickableViewAccessibility")
