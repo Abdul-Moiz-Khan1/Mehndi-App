@@ -168,7 +168,7 @@ public class NextActivity extends AppCompatActivity {
 
     private void flip_horizontally() {
         if(flipped_hor){
-            overlayImageView.setRotationY(-180);
+            overlayImageView.setRotationY(0);
             flipped_hor = false;
         }
         else{
@@ -178,7 +178,7 @@ public class NextActivity extends AppCompatActivity {
     }
     private void flip_vertically() {
         if(flipped_vert){
-            overlayImageView.setRotationX(-180);
+            overlayImageView.setRotationX(0);
             flipped_vert = false;
         }else {
             overlayImageView.setRotationX(180);
