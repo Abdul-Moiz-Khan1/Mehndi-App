@@ -10,16 +10,18 @@
     <ImageView
         android:id="@+id/capturedImageView"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="570dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop" />
+
 
     <ImageView
         android:id="@+id/overlayImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="matrix"
-        android:adjustViewBounds="true"/>
+        android:adjustViewBounds="true"
+        android:scaleType="matrix" />
+
 
     <ImageView
         android:id="@+id/rotateIcon"
@@ -34,12 +36,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/capturedImageView"
-        android:padding="8dp"
         android:layout_marginBottom="2dp"
+        android:clipChildren="false"
         android:clipToPadding="false"
-        android:clipChildren="false"/>
+        android:padding="8dp" />
 
     <ImageView
         android:id="@+id/backArrow"
@@ -58,15 +60,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/backArrow"
+        android:layout_height="match_parent"
         android:layout_alignTop="@id/backArrow"
         android:layout_marginStart="8dp"
-        android:padding="8dp"
         android:layout_marginBottom="2dp"
-        android:clipToPadding="false"
+        android:layout_toEndOf="@id/backArrow"
         android:clipChildren="false"
-        android:visibility="gone"/>
+        android:clipToPadding="false"
+        android:padding="8dp"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/horizontal"

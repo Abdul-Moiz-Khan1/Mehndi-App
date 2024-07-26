@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/image_mehndi"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
         android:scaleType="centerCrop"/>
 
 
