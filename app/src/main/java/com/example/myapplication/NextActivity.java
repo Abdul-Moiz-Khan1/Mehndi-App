@@ -290,40 +290,6 @@ public class NextActivity extends AppCompatActivity {
 
     }
 
-    private String getFolderNameFromText(String text) {
-        switch (text) {
-            case "Latest Designs":
-                return "latest design";
-            case "Arabic Designs":
-                return "Arabic design";
-            case "Bengali Designs":
-                return "Bengali design";
-            case "Bridal Designs":
-                return "Bridal design";
-            case "Kids Designs":
-                return "kids design";
-            case "Leg Designs":
-                return "legs design";
-            case "Alphabetic Designs":
-                return "Alphabetic design";
-            case "Goltiki Designs":
-                return "Goltiki design";
-            case "Pakistani Designs":
-                return "Pakistani Design";
-            case "Indian Designs":
-                return "Indian design";
-            case "Backhand Designs":
-                return "Backhand design";
-            case "Finger Designs":
-                return "finger design";
-            case "Foot Designs":
-                return "foot design";
-
-            default:
-                return "";
-        }
-    }
-
     private float spacing(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
