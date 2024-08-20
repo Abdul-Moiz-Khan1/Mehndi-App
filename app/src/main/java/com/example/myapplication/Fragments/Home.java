@@ -1,26 +1,23 @@
 package com.example.myapplication.Fragments;
 
 
-
-import static com.google.android.material.internal.ViewUtils.dpToPx;
-
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.Adapters.CustomAdapter;
 import com.example.myapplication.Adapters.ItemModel;
 import com.example.myapplication.Mehndi;
 import com.example.myapplication.R;
+import com.example.myapplication.See_More;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +25,7 @@ public class Home extends Fragment {
 
     private RecyclerView recyclerView;
     private CustomAdapter adapter;
+    private TextView seemore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,11 +34,18 @@ public class Home extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
+        seemore = view.findViewById(R.id.seemore);
+        seemore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity() , See_More.class));
+            }
+        });
 
         // Set up grid layout manager with spacing between items
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_spacing);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, spacingInPixels, true));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity() ,LinearLayoutManager.HORIZONTAL ,false));
+//        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, spacingInPixels, true));
 
         List<ItemModel> data = new ArrayList<>();
         data.add(new ItemModel(R.drawable.latest_icon, "Latest Designs"));
