@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -33,15 +33,30 @@
         android:onClick="rotateImage"
         android:src="@drawable/rotate_svgrepo_com" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/capturedImageView"
         android:layout_marginBottom="2dp"
+        android:background="@null"
+        android:backgroundTint="@null"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:padding="8dp" />
+        android:padding="8dp"
+        app:cardCornerRadius="20dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background"
+            android:layout_below="@id/capturedImageView"
+            android:layout_marginBottom="2dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:padding="8dp" />
+    </androidx.cardview.widget.CardView>
 
     <ImageView
         android:id="@+id/backArrow"
