@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -20,8 +21,9 @@ public class FullScreenImageAdapter extends PagerAdapter {
 
     private Context context;
     private List<String> imagePaths;
-    private ImageView currentImageView; // Added to keep track of the current ImageView
-
+    private ImageView currentImageView;// Added to keep track of the current ImageView
+    private ImageButton download;
+    private ImageButton share;
     public FullScreenImageAdapter(Context context, List<String> imagePaths) {
         this.context = context;
         this.imagePaths = imagePaths;
@@ -45,6 +47,20 @@ public class FullScreenImageAdapter extends PagerAdapter {
 
         ImageView imageView = view.findViewById(R.id.image_full);
         currentImageView = imageView; // Set currentImageView to the newly created ImageView
+        download = view.findViewById(R.id.download_button);
+        share = view.findViewById(R.id.share_button);
+        download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         // Load image from assets
         try {
@@ -59,6 +75,7 @@ public class FullScreenImageAdapter extends PagerAdapter {
 
         return view;
     }
+
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
