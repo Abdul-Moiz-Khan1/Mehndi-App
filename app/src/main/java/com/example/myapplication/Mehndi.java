@@ -1,8 +1,10 @@
 package com.example.myapplication;
 
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,7 +14,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,6 +40,7 @@ public class Mehndi extends AppCompatActivity implements ImageAdapter.OnItemClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mehndi);
 
+        checkpermissions();
         recyclerView = findViewById(R.id.recycler_view);
         selectedTextView = findViewById(R.id.selected_text_view);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -48,6 +53,16 @@ public class Mehndi extends AppCompatActivity implements ImageAdapter.OnItemClic
         selectedTextView.setText(text); // Set the selected text on TextView
 
         loadImagesForText(text); // Load images based on the selected text
+    }
+
+    private void checkpermissions() {
+
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE} ,1001);
+        }
+        else {
+            return;
+        }
     }
 
     private void loadImagesForText(String text) {
@@ -183,6 +198,19 @@ public class Mehndi extends AppCompatActivity implements ImageAdapter.OnItemClic
                     outRect.top = spacing;
                 }
             }
+        }
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults.length > 0 && grantResults[0] ==PackageManager.PERMISSION_GRANTED){
+            return;
+        }else {
+            checkpermissions();
         }
     }
 }

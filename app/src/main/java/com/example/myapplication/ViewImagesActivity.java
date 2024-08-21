@@ -25,6 +25,7 @@ public class ViewImagesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_images);
 
+
         viewPager = findViewById(R.id.viewPager);
 
         TextView titleTextView = findViewById(R.id.titleTextView);
@@ -60,6 +61,7 @@ public class ViewImagesActivity extends AppCompatActivity {
 
 
     }
+
 
 
     private String getFolderNameForText(String text) {
@@ -122,4 +124,5 @@ public class ViewImagesActivity extends AppCompatActivity {
             return true;
         }
     }
+
 }
