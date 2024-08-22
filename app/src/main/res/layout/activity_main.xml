@@ -47,7 +47,6 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/fab_back"
             android:backgroundTint="@color/background"
 
             android:src="@drawable/scan_icon"

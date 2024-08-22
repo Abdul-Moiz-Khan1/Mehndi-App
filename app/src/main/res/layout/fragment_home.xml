@@ -10,7 +10,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         >
 
         <ImageView
@@ -180,12 +179,12 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <!--    <RelativeLayout-->
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="match_parent">-->
 
 
     <!--    </RelativeLayout>-->
-
 
 </FrameLayout>
