@@ -76,9 +76,10 @@
                     android:layout_height="50dp"
                     android:layout_margin="10dp"
                     android:fontFamily="@font/inria_sans_light"
-                    android:gravity="bottom|center"
 
-                    android:text="                   We Make Your Days\n                 more Special"
+                    android:gravity="center"
+                    android:paddingStart="50dp"
+                    android:text="We Make Your Days\nmore Special"
                     android:textColor="@color/black"
                     android:textSize="22sp"
                     android:textStyle="bold"
