@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ScaleGestureDetector;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +35,14 @@ public class ViewImagesActivity extends AppCompatActivity {
         // Get the text passed through intent
         Intent intent = getIntent();
         String text = intent.getStringExtra("text");
+
+        //finish on back pressed
+        backIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         // Set the text to the TextView
         titleTextView.setText(text);

@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,13 +35,20 @@ public class Mehndi extends AppCompatActivity implements ImageAdapter.OnItemClic
     private TextView selectedTextView;
     private DatabaseHelper databaseHelper;
     private String text; // Variable to hold the selected text
-
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mehndi);
 
         checkpermissions();
+        toolbar = findViewById(R.id.mehndi_toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         recyclerView = findViewById(R.id.recycler_view);
         selectedTextView = findViewById(R.id.selected_text_view);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
