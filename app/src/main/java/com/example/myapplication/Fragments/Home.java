@@ -20,11 +20,16 @@ import com.example.myapplication.R;
 import com.example.myapplication.See_More;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+
 public class Home extends Fragment {
 
     private RecyclerView recyclerView;
+    private RecyclerView recyclerView_recommendations;
     private CustomAdapter adapter;
+    private CustomAdapter recommendataion_adapter;
     private TextView seemore;
 
     @Override
@@ -34,6 +39,7 @@ public class Home extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView_recommendations = view.findViewById(R.id.recommendation_rec_view);
         seemore = view.findViewById(R.id.seemore);
         seemore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +51,7 @@ public class Home extends Fragment {
         // Set up grid layout manager with spacing between items
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_spacing);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity() ,LinearLayoutManager.HORIZONTAL,false ));
+        recyclerView_recommendations.setLayoutManager(new LinearLayoutManager(getActivity() ,LinearLayoutManager.HORIZONTAL,false ));
 //        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, spacingInPixels, true));
 
         List<ItemModel> data = new ArrayList<>();
@@ -63,7 +70,25 @@ public class Home extends Fragment {
         data.add(new ItemModel(R.drawable.alpha_icon, "Alphabetic Designs"));
 
 
+        List<ItemModel> recommended_data = new ArrayList<>();
+        recommended_data = data;
+        Random random = new Random();
+        int min=6,max=13;
+        recommended_data = recommended_data.subList((random.nextInt(max-min +1)) , (random.nextInt(max-min +1)+min));
+        if(recommended_data.size() < 2){
+            recommended_data = data.subList(0,8);
+        }
+        Collections.shuffle(recommended_data);
+
         adapter = new CustomAdapter(getActivity(), data, new CustomAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String text) {
+                Intent intent = new Intent(getActivity(), Mehndi.class);
+                intent.putExtra("text", text);
+                startActivity(intent);
+            }
+        });
+        recommendataion_adapter = new CustomAdapter(getActivity(), recommended_data, new CustomAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String text) {
                 Intent intent = new Intent(getActivity(), Mehndi.class);
@@ -73,6 +98,7 @@ public class Home extends Fragment {
         });
 
         recyclerView.setAdapter(adapter);
+        recyclerView_recommendations.setAdapter(recommendataion_adapter);
 
         return view;
     }
