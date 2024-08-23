@@ -72,12 +72,12 @@
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="0dp"
                     android:layout_margin="10dp"
                     android:fontFamily="@font/inria_sans_light"
 
                     android:gravity="center"
-                    android:paddingStart="50dp"
+                    android:paddingStart="70dp"
                     android:text="We Make Your Days\nmore Special"
                     android:textColor="@color/black"
                     android:textSize="22sp"
