@@ -8,7 +8,8 @@
 
     <item
         android:id="@+id/nav_scan"
-        android:title="" />
+        android:title=""
+        />
     <item
         android:id="@+id/nav_fav"
         android:icon="@drawable/favourite_icon"

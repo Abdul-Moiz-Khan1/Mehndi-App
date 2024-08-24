@@ -32,7 +32,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav" />
+        app:menu="@menu/bottom_nav"
+        >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -43,15 +46,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/background"
-
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:backgroundTint="#00FFFFFF"
             android:src="@drawable/scan_icon"
-            app:layout_anchor="@id/bottom_app_bar"
-
+            app:layout_anchor="@+id/bottom_app_bar"
+            app:layout_anchorGravity="center"
             tools:ignore="MissingConstraints" />
 
         <com.google.android.material.bottomappbar.BottomAppBar

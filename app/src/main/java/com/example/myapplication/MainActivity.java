@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
@@ -15,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import com.example.myapplication.Fragments.Favourite;
 import com.example.myapplication.Fragments.Home;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.FirebaseApp;
 
 public class MainActivity extends AppCompatActivity {
@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Find view by ID for the FAB
-        FloatingActionButton fab = findViewById(R.id.fab);
-
+//        FloatingActionButton fab = findViewById(R.id.fab);
+        ImageButton fab = findViewById(R.id.fab);
         // Set up FAB click listener
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
