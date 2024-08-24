@@ -74,9 +74,9 @@ public class Home extends Fragment {
         recommended_data = data;
         Random random = new Random();
         int min=6,max=13;
-        recommended_data = recommended_data.subList((random.nextInt(max-min +1)) , (random.nextInt(max-min +1)+min));
+        recommended_data = new ArrayList<>(recommended_data.subList(3 , (random.nextInt(max-min +1)+min)));
         if(recommended_data.size() < 2){
-            recommended_data = data.subList(0,8);
+            recommended_data = data.subList(3,8);
         }
         Collections.shuffle(recommended_data);
 
