@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/capturedImageView"
         android:layout_width="match_parent"
-        android:layout_height="570dp"
+        android:layout_height="590dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop" />
 
@@ -23,29 +23,17 @@
         android:scaleType="matrix" />
 
 
-    <androidx.cardview.widget.CardView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/capturedImageView"
-        android:layout_marginBottom="2dp"
-        android:background="@null"
-        android:backgroundTint="@null"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="560dp"
+        android:background="@drawable/top_round"
+        android:backgroundTint="@color/background"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:padding="8dp"
-        app:cardCornerRadius="20dp">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background"
-            android:layout_below="@id/capturedImageView"
-            android:layout_marginBottom="2dp"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:padding="8dp" />
-    </androidx.cardview.widget.CardView>
+        android:padding="8dp" />
 
     <ImageView
         android:id="@+id/backArrow"
@@ -69,6 +57,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginBottom="2dp"
         android:layout_toEndOf="@id/backArrow"
+        android:background="@drawable/top_round"
+        android:backgroundTint="@color/background"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:padding="8dp"
@@ -103,7 +93,7 @@
                 android:clickable="true"
                 android:onClick="rotateImage"
                 android:padding="2dp"
-                android:src="@drawable/rotate_svgrepo_com" />
+                android:src="@drawable/rotate_icon" />
 
             <ImageView
                 android:id="@+id/horizontal"
@@ -111,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:padding="2dp"
-                app:srcCompat="@drawable/flip_vertical" />
+                app:srcCompat="@drawable/horizental_flip" />
 
             <ImageView
                 android:id="@+id/vertical"
@@ -119,9 +109,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:padding="2dp"
-                app:srcCompat="@drawable/flip_horizontal" />
+                app:srcCompat="@drawable/vertical_flip" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/baseline_arrow_back_ios_24" />
 
 
 </RelativeLayout>

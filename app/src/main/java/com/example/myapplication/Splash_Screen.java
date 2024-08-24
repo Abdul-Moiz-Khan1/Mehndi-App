@@ -3,13 +3,16 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.myapplication.databinding.ActivitySplashScreenBinding;
 
 public class Splash_Screen extends AppCompatActivity {
-
+    private TextView text;
     private ActivitySplashScreenBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +20,8 @@ public class Splash_Screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
 
-        binding.lottie.setAnimation(R.raw.mehndi2);
-        binding.lottie.playAnimation();
+        text = findViewById(R.id.animate_text);
+        YoYo.with(Techniques.FadeInLeft).duration(1500).repeat(0).playOn(text);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -26,7 +29,7 @@ public class Splash_Screen extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }, 3000);
+        }, 1500);
 
     }
 }

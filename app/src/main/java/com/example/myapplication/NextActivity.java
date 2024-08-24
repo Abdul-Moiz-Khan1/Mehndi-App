@@ -53,6 +53,7 @@ public class NextActivity extends AppCompatActivity {
     private ImageView overlayImageView;
     private ImageView rotateIcon;
     private ImageView backArrow;
+    private ImageView cancel;
     private Bitmap capturedImage;
     private Bitmap overlayImage;
     private PointF lastTouch = new PointF();
@@ -85,8 +86,8 @@ public class NextActivity extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
 
-        flip_vertical = findViewById(R.id.vertical);
-        flip_horizontal = findViewById(R.id.horizontal);
+        flip_vertical = findViewById(R.id.horizontal);
+        flip_horizontal = findViewById(R.id.vertical);
         flip_vertical.setOnClickListener(view -> {flip_vertically();});
         flip_horizontal.setOnClickListener(view -> {flip_horizontally();});
 
@@ -94,6 +95,7 @@ public class NextActivity extends AppCompatActivity {
         overlayImageView = findViewById(R.id.overlayImageView);
         rotateIcon = findViewById(R.id.rotateIcon);
         backArrow = findViewById(R.id.backArrow);
+        cancel = findViewById(R.id.cancel);
 
         recyclerView2 = findViewById(R.id.recyclerView2);
         dataList2 = new ArrayList<>();
@@ -137,6 +139,13 @@ public class NextActivity extends AppCompatActivity {
                 pos = position;
                 set_overlay_image();
 
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
