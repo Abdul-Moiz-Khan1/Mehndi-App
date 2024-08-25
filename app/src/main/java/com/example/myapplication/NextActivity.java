@@ -114,7 +114,6 @@ public class NextActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
 
-
         // Handle item click to switch to second RecyclerView
         adapter.setOnItemClickListener(new ImageTextAdapter.OnItemClickListener() {
             @SuppressLint("NotifyDataSetChanged")
