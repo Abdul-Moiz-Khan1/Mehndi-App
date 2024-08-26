@@ -111,6 +111,14 @@
                 android:padding="2dp"
                 app:srcCompat="@drawable/vertical_flip" />
 
+            <ImageView
+                android:id="@+id/delete_design"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="2dp"
+                app:srcCompat="@drawable/cancel" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

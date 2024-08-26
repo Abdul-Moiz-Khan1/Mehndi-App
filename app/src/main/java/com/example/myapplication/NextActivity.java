@@ -44,10 +44,9 @@ public class NextActivity extends AppCompatActivity {
     Boolean fetched;
     private ImageView flip_vertical;
     private ImageView flip_horizontal;
+    private ImageView delete_design;
     private Boolean flipped_vert = false;
     private Boolean flipped_hor = false;
-
-
 
     private ImageView capturedImageView;
     private ImageView overlayImageView;
@@ -96,6 +95,7 @@ public class NextActivity extends AppCompatActivity {
         rotateIcon = findViewById(R.id.rotateIcon);
         backArrow = findViewById(R.id.backArrow);
         cancel = findViewById(R.id.cancel);
+        delete_design = findViewById(R.id.delete_design);
 
         recyclerView2 = findViewById(R.id.recyclerView2);
         dataList2 = new ArrayList<>();
@@ -113,6 +113,18 @@ public class NextActivity extends AppCompatActivity {
         adapter = new ImageTextAdapter(this, dataList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
+
+        delete_design.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(overlayImageView.getDrawable()==null){
+                    Toast.makeText(NextActivity.this,"Please select some design" ,Toast.LENGTH_SHORT).show();
+                }else{
+                    overlayImageView.setImageDrawable(null);
+                }
+
+            }
+        });
 
         // Handle item click to switch to second RecyclerView
         adapter.setOnItemClickListener(new ImageTextAdapter.OnItemClickListener() {
@@ -161,7 +173,11 @@ public class NextActivity extends AppCompatActivity {
         rotateIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rotateImage();
+                if(overlayImageView.getDrawable()==null){
+                    Toast.makeText(NextActivity.this,"Please select some design" ,Toast.LENGTH_SHORT).show();
+                }else{
+                    rotateImage();
+                }
             }
         });
 
@@ -175,22 +191,30 @@ public class NextActivity extends AppCompatActivity {
     }
 
     private void flip_horizontally() {
-        if(flipped_hor){
-            overlayImageView.setRotationY(0);
-            flipped_hor = false;
-        }
-        else{
-            overlayImageView.setRotationY(180);
-            flipped_hor = true;
+        if(overlayImageView.getDrawable()==null){
+            Toast.makeText(NextActivity.this,"Please select some design" ,Toast.LENGTH_SHORT).show();
+        }else{
+            if(flipped_hor){
+                overlayImageView.setRotationY(0);
+                flipped_hor = false;
+            }
+            else{
+                overlayImageView.setRotationY(180);
+                flipped_hor = true;
+            }
         }
     }
     private void flip_vertically() {
-        if(flipped_vert){
-            overlayImageView.setRotationX(0);
-            flipped_vert = false;
-        }else {
-            overlayImageView.setRotationX(180);
-            flipped_vert = true;
+        if(overlayImageView.getDrawable()==null){
+            Toast.makeText(NextActivity.this,"Please select some design" ,Toast.LENGTH_SHORT).show();
+        }else{
+            if(flipped_vert){
+                overlayImageView.setRotationX(0);
+                flipped_vert = false;
+            }else {
+                overlayImageView.setRotationX(180);
+                flipped_vert = true;
+            }
         }
     }
 
