@@ -55,6 +55,7 @@ public class NextActivity extends AppCompatActivity {
     private ImageView cancel;
     private Bitmap capturedImage;
     private Bitmap overlayImage;
+
     private PointF lastTouch = new PointF();
     private Matrix matrix = new Matrix();
     private Matrix savedMatrix = new Matrix();
@@ -66,6 +67,8 @@ public class NextActivity extends AppCompatActivity {
     private float oldDist = 1f;
     private PointF mid = new PointF();
     private float startAngle = 0f;
+    private float currentRotation = 0f;
+    private float accumulatedRotation = 0f;
 
 
     private RecyclerView recyclerView;
@@ -241,52 +244,106 @@ public class NextActivity extends AppCompatActivity {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     ImageView view = (ImageView) v;
+
                     switch (event.getAction() & MotionEvent.ACTION_MASK) {
                         case MotionEvent.ACTION_DOWN:
                             savedMatrix.set(matrix);
                             lastTouch.set(event.getX(), event.getY());
                             mode = DRAG;
                             break;
+
                         case MotionEvent.ACTION_POINTER_DOWN:
-                            if (event.getPointerCount() == 2) {
-                                startAngle = angleBetweenTwoFingers(event);
-                                mode = ROTATE;
-                            }
                             oldDist = spacing(event);
-                            if (oldDist > 10f) {
+                            if (event.getPointerCount() == 2) {
                                 savedMatrix.set(matrix);
                                 midPoint(mid, event);
+                                startAngle = angleBetweenTwoFingers(event);
                                 mode = ZOOM;
                             }
                             break;
+
                         case MotionEvent.ACTION_MOVE:
                             if (mode == DRAG) {
                                 matrix.set(savedMatrix);
                                 matrix.postTranslate(event.getX() - lastTouch.x, event.getY() - lastTouch.y);
-                            } else if (mode == ZOOM) {
+                            } else if (mode == ZOOM || mode == ROTATE) {
                                 float newDist = spacing(event);
                                 if (newDist > 10f) {
                                     matrix.set(savedMatrix);
                                     float scale = newDist / oldDist;
                                     matrix.postScale(scale, scale, mid.x, mid.y);
                                 }
-                            } else if (mode == ROTATE) {
-                                float currentAngle = angleBetweenTwoFingers(event);
-                                float rotation = currentAngle - startAngle;
-                                matrix.postRotate(rotation, view.getWidth() / 2, view.getHeight() / 2);
-                                startAngle = currentAngle;
+
+                                if (event.getPointerCount() == 2) {
+                                    float currentAngle = angleBetweenTwoFingers(event);
+                                    float deltaRotation = currentAngle - startAngle;
+                                    if (Math.abs(deltaRotation) > 1) { // Threshold to avoid jitter
+                                        accumulatedRotation += deltaRotation;
+                                        matrix.set(savedMatrix);
+                                        matrix.postRotate(accumulatedRotation, mid.x, mid.y);
+                                    }
+                                    startAngle = currentAngle; // Update startAngle for next move event
+                                }
                             }
                             break;
+
                         case MotionEvent.ACTION_UP:
                         case MotionEvent.ACTION_POINTER_UP:
-                            mode = NONE;
-                            break;
-                        case MotionEvent.ACTION_POINTER_2_UP:
+                            savedMatrix.set(matrix); // Save the matrix state including rotation and scale
                             mode = NONE;
                             break;
                     }
+
                     view.setImageMatrix(matrix);
                     return true;
+//                    ImageView view = (ImageView) v;
+//                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+//                        case MotionEvent.ACTION_DOWN:
+//                            savedMatrix.set(matrix);
+//                            lastTouch.set(event.getX(), event.getY());
+//                            mode = DRAG;
+//                            break;
+//                        case MotionEvent.ACTION_POINTER_DOWN:
+//                            if (event.getPointerCount() == 2) {
+//                                startAngle = angleBetweenTwoFingers(event);
+//                                mode = ROTATE;
+//                            }
+//                            oldDist = spacing(event);
+//                            if (oldDist > 10f) {
+//                                savedMatrix.set(matrix);
+//                                midPoint(mid, event);
+//                                mode = ZOOM;
+//                            }
+//                            break;
+//                        case MotionEvent.ACTION_MOVE:
+//                            if (mode == DRAG) {
+//                                matrix.set(savedMatrix);
+//                                matrix.postTranslate(event.getX() - lastTouch.x, event.getY() - lastTouch.y);
+//                            } else if (mode == ZOOM) {
+//                                float newDist = spacing(event);
+//                                if (newDist > 10f) {
+//                                    matrix.set(savedMatrix);
+//                                    float scale = newDist / oldDist;
+//                                    matrix.postScale(scale, scale, mid.x, mid.y);
+//                                }
+//                            } else if (mode == ROTATE) {
+//                                float currentAngle = angleBetweenTwoFingers(event);
+//                                float rotation = currentAngle - startAngle;
+//                                matrix.postRotate(rotation, view.getWidth() / 2, view.getHeight() / 2);
+//                                startAngle = currentAngle;
+//                            }
+//                            break;
+//                        case MotionEvent.ACTION_UP:
+//                        case MotionEvent.ACTION_POINTER_UP:
+//                            mode = NONE;
+//                            break;
+//                        case MotionEvent.ACTION_POINTER_2_UP:
+//                            mode = NONE;
+//                            break;
+//                    }
+//                    view.setImageMatrix(matrix);
+//                    return true;
+
                 }
             });
         } catch (Exception e){
