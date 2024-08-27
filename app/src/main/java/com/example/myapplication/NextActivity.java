@@ -286,7 +286,7 @@ public class NextActivity extends AppCompatActivity {
                                         matrix.postRotate(accumulatedRotation, mid.x, mid.y);
                                         startAngle = currentAngle; // Update startAngle only when rotation is applied
                                     }
-                                    startAngle = currentAngle;
+//                                    startAngle = currentAngle;
                                 }
                             }
                             break;
