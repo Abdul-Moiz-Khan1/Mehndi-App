@@ -18,7 +18,6 @@ import java.io.InputStream;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
-
     private List<String> imagePaths;
     private Context context;
     private DatabaseHelper databaseHelper;
