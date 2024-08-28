@@ -3,6 +3,8 @@ package com.example.myapplication.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
@@ -23,14 +25,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 
 public class FullScreenImageAdapter extends PagerAdapter {
 
     private Context context;
     private List<String> imagePaths;
-    private ImageView currentImageView;// Added to keep track of the current ImageView
+    private ImageView currentImageView; // Added to keep track of the current ImageView
     private ImageButton download;
     private ImageButton share;
 
@@ -59,18 +60,9 @@ public class FullScreenImageAdapter extends PagerAdapter {
         currentImageView = imageView; // Set currentImageView to the newly created ImageView
         download = view.findViewById(R.id.download_button);
         share = view.findViewById(R.id.share_button);
-        download.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                download_image(imagePaths.get(position));
-            }
-        });
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                shareImage(imagePaths.get(position));
-            }
-        });
+
+        download.setOnClickListener(view1 -> download_image(imagePaths.get(position)));
+        share.setOnClickListener(view12 -> shareImage(imagePaths.get(position)));
 
         // Load image from assets
         try {
@@ -88,21 +80,18 @@ public class FullScreenImageAdapter extends PagerAdapter {
 
     private void shareImage(String filePath) {
         try {
-            // Extract the file name from the path
-            String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
-
-            // Create the output file path
-            File file = new File(Environment.getExternalStorageDirectory(), fileName);
-
-            if (!file.exists()) {
-                download_image(filePath);
+            // Convert the WebP image to PNG format
+            File pngFile = convertWebPToPNG(filePath);
+            if (pngFile == null) {
+                Toast.makeText(context, "Conversion Failed", Toast.LENGTH_SHORT).show();
+                return;
             }
 
-            Uri fileUri = FileProvider.getUriForFile(context,   context.getApplicationContext().getPackageName() + ".provider", file);
+            Uri fileUri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", pngFile);
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
-            shareIntent.setType("image/*");
+            shareIntent.setType("image/png");
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
             context.startActivity(Intent.createChooser(shareIntent, "Share Image"));
@@ -111,52 +100,55 @@ public class FullScreenImageAdapter extends PagerAdapter {
             e.printStackTrace();
             Toast.makeText(context, "Sharing Failed", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     private void download_image(String filePath) {
-        AssetManager assetManager = context.getAssets();
-        InputStream in = null;
-        OutputStream out = null;
         try {
-            // Use filePath to open the image
-            in = assetManager.open(filePath);
-
-            // Extract the file name from the path
-            String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
-
-            // Create the output file before writing
-            File outFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
-            out = new FileOutputStream(outFile);
-            copyFile(in, out);
-            Toast.makeText(context, "Image Downloaded: " + outFile.getPath(), Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
+            // Convert the WebP image to PNG format
+            File pngFile = convertWebPToPNG(filePath);
+            if (pngFile != null) {
+                Toast.makeText(context, "Image Downloaded: " + pngFile.getPath(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Download Failed", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, "Download Failed", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private File convertWebPToPNG(String filePath) {
+        AssetManager assetManager = context.getAssets();
+        InputStream inputStream = null;
+        try {
+            // Load the WebP image from assets
+            inputStream = assetManager.open(filePath);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+            // Create the output file
+            String fileName = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.lastIndexOf(".")) + ".png";
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
+
+            // Save the bitmap as a PNG file
+            FileOutputStream outputStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            outputStream.flush();
+            outputStream.close();
+
+            return file;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         } finally {
             try {
-                if (in != null) {
-                    in.close();
-                }
-                if (out != null) {
-                    out.close();
+                if (inputStream != null) {
+                    inputStream.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
     }
-
-    private void copyFile(InputStream in, OutputStream out) throws IOException {
-        byte[] buffer = new byte[1024];
-        int read;
-        while ((read = in.read(buffer)) != -1) {
-            out.write(buffer, 0, read);
-        }
-
-    }
-
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
@@ -167,6 +159,4 @@ public class FullScreenImageAdapter extends PagerAdapter {
     public ImageView getCurrentImageView() {
         return currentImageView;
     }
-
-
 }

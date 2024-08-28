@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.35" />
+                app:layout_constraintGuide_percent="0.28" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
@@ -54,7 +54,7 @@
                         android:id="@+id/imageView3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="center"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/card"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView4"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +65,7 @@
                         android:id="@+id/imageView4"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="center"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/white_triangle"
                         android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -125,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.40" />
+                app:layout_constraintGuide_percent="0.35" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -169,7 +169,6 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
                 android:fontFamily="@font/inria_serif_light_italic"
                 android:text="Recomendation"
                 android:textColor="@color/black"
@@ -202,14 +201,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.98" />
+                app:layout_constraintGuide_percent="0.99" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.15" />
+                app:layout_constraintGuide_percent="0.12" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
