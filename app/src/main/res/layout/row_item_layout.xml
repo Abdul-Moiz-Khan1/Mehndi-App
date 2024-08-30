@@ -22,20 +22,6 @@
         app:strokeColor="@color/black"
         app:strokeWidth="1dp" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/textview"-->
-    <!--        style="@style/listitem"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-
-    <!--        android:fontFamily="@font/kodchasan_medium"-->
-    <!--        android:lineSpacingMultiplier="1.0"-->
-    <!--        android:text="Text2"-->
-    <!--        android:textColorHighlight="@color/black"-->
-    <!--        android:textColorHint="@color/black"-->
-    <!--        android:textColorLink="@color/black"-->
-    <!--        android:visibility="visible" />-->
-
     <TextView
         android:id="@+id/textview"
         android:layout_width="match_parent"
