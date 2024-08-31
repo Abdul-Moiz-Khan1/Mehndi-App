@@ -333,9 +333,7 @@ public class NextActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("Refrence Error", " Cannot Access Firebase", e);
         }
-
     }
-
     private float spacing(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
@@ -347,7 +345,6 @@ public class NextActivity extends AppCompatActivity {
         float y = event.getY(0) + event.getY(1);
         point.set(x / 2, y / 2);
     }
-
     private float angleBetweenTwoFingers(MotionEvent event) {
         float dx = event.getX(0) - event.getX(1);
         float dy = event.getY(0) - event.getY(1);
