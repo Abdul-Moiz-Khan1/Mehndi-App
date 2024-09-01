@@ -47,7 +47,6 @@ public class Home extends Fragment {
                 startActivity(new Intent(getActivity() , See_More.class));
             }
         });
-
         // Set up grid layout manager with spacing between items
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_spacing);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity() ,LinearLayoutManager.HORIZONTAL,false ));

@@ -357,11 +357,9 @@ public class NextActivity extends AppCompatActivity {
             overlayImageView.setImageMatrix(matrix);
         }
     }
-
     private void showProgress() {
         progressDialog.setTitle("Loading");
         progressDialog.setMessage("loading Designs");
         progressDialog.show();
     }
-
 }

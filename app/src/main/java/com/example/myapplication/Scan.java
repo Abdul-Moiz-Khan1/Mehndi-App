@@ -297,6 +297,4 @@ public class Scan extends AppCompatActivity {
         }
         return AspectRatio.RATIO_16_9;
     }
-
-
 }
