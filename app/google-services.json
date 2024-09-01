@@ -1,27 +1,34 @@
 {
   "project_info": {
-
+    "project_number": "594166842926",
+    "firebase_url": "https://mehandi-designs-2020.firebaseio.com",
+    "project_id": "mehandi-designs-2020",
+    "storage_bucket": "mehandi-designs-2020.appspot.com"
   },
   "client": [
     {
       "client_info": {
-
+        "mobilesdk_app_id": "1:594166842926:android:e89882342c8dcfa27f81bf",
         "android_client_info": {
+          "package_name": "com.example.mehandidesignslatest"
         }
       },
       "oauth_client": [
         {
+          "client_id": "594166842926-c1ucue5c551nhrok264059c2tmhkai3i.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
+          "current_key": "AIzaSyCOd5p7KXrMoHe0FiKp5Jp12QYqdB5rngo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
+              "client_id": "594166842926-c1ucue5c551nhrok264059c2tmhkai3i.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -32,21 +39,25 @@
       "client_info": {
         "mobilesdk_app_id": "1:594166842926:android:057ab9363b584c877f81bf",
         "android_client_info": {
+          "package_name": "com.nextguidance.simplemehndidesignsfree"
         }
       },
       "oauth_client": [
         {
+          "client_id": "594166842926-c1ucue5c551nhrok264059c2tmhkai3i.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
+          "current_key": "AIzaSyCOd5p7KXrMoHe0FiKp5Jp12QYqdB5rngo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
+              "client_id": "594166842926-c1ucue5c551nhrok264059c2tmhkai3i.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -56,3 +67,4 @@
   ],
   "configuration_version": "1"
 }
+

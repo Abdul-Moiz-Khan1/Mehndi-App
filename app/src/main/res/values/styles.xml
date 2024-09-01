@@ -15,7 +15,6 @@
         <item name="android:textSize">15sp</item>
     </style>
 
-
     <style name="roundCorner" parent="">
         <item name="color">@color/gnt_white</item>
         <item name="cornerFamily">rounded</item>
@@ -23,7 +22,6 @@
         <item name="elevation">4dp</item>
 
     </style>
-
     <style name="circleImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
