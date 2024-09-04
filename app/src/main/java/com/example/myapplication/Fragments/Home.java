@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Random;
 
 public class Home extends Fragment {
-
     private RecyclerView recyclerView;
     private RecyclerView recyclerView_recommendations;
     private CustomAdapter adapter;
@@ -37,7 +36,6 @@ public class Home extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView_recommendations = view.findViewById(R.id.recommendation_rec_view);
         seemore = view.findViewById(R.id.seemore);
