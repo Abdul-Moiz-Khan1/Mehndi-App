@@ -30,7 +30,6 @@ public class Home extends Fragment {
     private CustomAdapter adapter;
     private CustomAdapter recommendataion_adapter;
     private TextView seemore;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,7 +92,6 @@ public class Home extends Fragment {
                 startActivity(intent);
             }
         });
-
         recyclerView.setAdapter(adapter);
         recyclerView_recommendations.setAdapter(recommendataion_adapter);
 
