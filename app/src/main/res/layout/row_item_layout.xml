@@ -21,7 +21,6 @@
         app:shapeAppearanceOverlay="@style/circleImageView"
         app:strokeColor="@color/black"
         app:strokeWidth="1dp" />
-
     <TextView
         android:id="@+id/textview"
         android:layout_width="match_parent"
