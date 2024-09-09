@@ -65,7 +65,6 @@ public class Home extends Fragment {
         data.add(new ItemModel(R.drawable.foot_icon, "Foot Designs"));
         data.add(new ItemModel(R.drawable.alpha_icon, "Alphabetic Designs"));
 
-
         List<ItemModel> recommended_data = new ArrayList<>();
         recommended_data = data;
         Random random = new Random();
