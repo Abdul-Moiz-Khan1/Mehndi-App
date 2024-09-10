@@ -74,9 +74,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        // Find view by ID for the FAB
-//        FloatingActionButton fab = findViewById(R.id.fab);
         ImageButton fab = findViewById(R.id.fab);
         // Set up FAB click listener
         fab.setOnClickListener(new View.OnClickListener() {
