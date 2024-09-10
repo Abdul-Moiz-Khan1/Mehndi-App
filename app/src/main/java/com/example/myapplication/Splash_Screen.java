@@ -19,7 +19,6 @@ public class Splash_Screen extends AppCompatActivity {
         binding = ActivitySplashScreenBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
-
         text = findViewById(R.id.animate_text);
         YoYo.with(Techniques.FadeInLeft).duration(1500).repeat(0).playOn(text);
         new Handler().postDelayed(new Runnable() {
