@@ -18,7 +18,6 @@ import java.util.List;
 
 public class MehndiImageAdapter extends RecyclerView.Adapter<MehndiImageAdapter.ViewHolder> {
 
-
     private List<MehndiImage> dataList;
     private Context context;
     private OnItemClickListener2 Listener;
@@ -31,7 +30,6 @@ public class MehndiImageAdapter extends RecyclerView.Adapter<MehndiImageAdapter.
     public void setOnItemClickListener2(OnItemClickListener2 listener) {
         this.Listener = listener;
     }
-
 
     @NonNull
     @Override
@@ -79,6 +77,5 @@ public class MehndiImageAdapter extends RecyclerView.Adapter<MehndiImageAdapter.
     public interface OnItemClickListener2 {
         void onItemClick2(int position);
     }
-
 
 }
