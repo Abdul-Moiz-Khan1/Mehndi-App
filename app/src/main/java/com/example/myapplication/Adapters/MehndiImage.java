@@ -7,15 +7,12 @@ public class MehndiImage {
     private String folderName;
     private String url;
 
-
-
     public MehndiImage(NextActivity nextActivity, String url, String imageName, String folderName) {
 
         this.imageName = imageName;
         this.folderName = folderName;
         this.url = url;
     }
-
     public String getImageName() {
         return imageName;
     }
