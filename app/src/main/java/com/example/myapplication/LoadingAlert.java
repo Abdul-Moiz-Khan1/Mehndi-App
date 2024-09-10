@@ -25,7 +25,6 @@ public class LoadingAlert {
         dialog.show();
 
     }
-
     void closeAlertDialog(){
         dialog.dismiss();
     }
