@@ -59,7 +59,6 @@ public class MehndiImageAdapter extends RecyclerView.Adapter<MehndiImageAdapter.
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return dataList.size();
