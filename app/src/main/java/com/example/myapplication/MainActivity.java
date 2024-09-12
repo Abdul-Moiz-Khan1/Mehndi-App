@@ -22,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Home homeFragment = new Home();
     private Favourite favouriteFragment = new Favourite();
-
-
     private ImageView settingsIcon;
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
@@ -54,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
-
         //my temp work
 
         BottomNavigationView navView = findViewById(R.id.bottom_nav_view);
